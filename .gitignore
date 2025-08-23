@@ -1,4 +1,4 @@
-_pycache__
+__pycache__
 .env
-output.txt
-output.txt.inv
+output
+
