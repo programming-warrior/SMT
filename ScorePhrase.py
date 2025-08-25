@@ -157,37 +157,57 @@ class ScorePhrase:
         return
     
     def mergeAlignedInfo(aligned_str1, aligned_str2):
-        if aligned_str1==aligned_str2:
+        """
+        Merge two alignment strings by combining numbers in corresponding parentheses groups.
+        
+        Example:
+            aligned_str1 = "(0,1) (2)"
+            aligned_str2 = "(2,3) (2,4)" 
+            Result: "(0,1,2,3) (2,4)"
+        """
+        print("merge called")
+        if aligned_str1 == aligned_str2:
             return aligned_str2
         
-        firstStart=0
-        firstEnd=0
-        secondStart=0
-        secondEnd=0
-
+        firstStart = 0
+        secondStart = 0
         aligned_info_list = []
 
         while True:
-            firstStart = aligned_str1.find("(")
-            firstEnd = aligned_str1.find(")")
-            secondStart= aligned_str2.find("(")
-            secondEnd = aligned_str2.find(")")
-
-            if not all(x!=-1 for x in [firstStart,firstEnd, secondStart, secondEnd]):
+            # Find opening parentheses
+            firstStart = aligned_str1.find("(", firstStart)
+            secondStart = aligned_str2.find("(", secondStart)
+            
+            if firstStart == -1 or secondStart == -1:
+                break
+                
+            # Find closing parentheses AFTER the opening ones
+            firstEnd = aligned_str1.find(")", firstStart)  # Start search from firstStart, not firstEnd!
+            secondEnd = aligned_str2.find(")", secondStart)  # Start search from secondStart, not secondEnd!
+            
+            if firstEnd == -1 or secondEnd == -1:
                 break
 
-            tmp_first_aligned_info= aligned_str1[firstStart+1:firstEnd]
-            tmp_second_aligned_info = aligned_str2[secondStart+1:secondEnd]
+            # Extract content between parentheses
+            tmp_first_aligned_info = aligned_str1[firstStart + 1:firstEnd]
+            tmp_second_aligned_info = aligned_str2[secondStart + 1:secondEnd]
             
             unique_tokens = set()
-
-            unique_tokens.update(map(int,tmp_first_aligned_info.split(',')))
-            unique_tokens.update(map(int, tmp_second_aligned_info.split(',')))
+            
+            # Handle empty groups gracefully
+            if tmp_first_aligned_info.strip():
+                unique_tokens.update(map(int, tmp_first_aligned_info.split(',')))
+            if tmp_second_aligned_info.strip():
+                unique_tokens.update(map(int, tmp_second_aligned_info.split(',')))
 
             aligned_info_list.append(unique_tokens)
-        
-    
-            return " ".join("(" + ",".join(map(str,a))  + ")" for a in aligned_info_list)
+
+            # Move to next positions
+            firstStart = firstEnd + 1
+            secondStart = secondEnd + 1
+
+        return " ".join("(" + ",".join(map(str, sorted(a))) + ")" for a in aligned_info_list)
+
       
 
     def saveToFile(self): 
