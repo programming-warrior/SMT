@@ -25,21 +25,24 @@ class PhraseAlignment:
         parsed_line = line.strip().split(' ')
         split_pos=0
         initialize_flage=True
-        for e in parsed_line: 
-            if e=='|||':
+        for i in range(len(parsed_line)): 
+            if parsed_line[i]=='|||':
                 split_pos+=1
+                i+=1
             
             if split_pos==0:
-                self.src_lang.append(e)
+                self.src_lang.append(parsed_line[i])
             elif split_pos==1:
-                self.tgt_lang.append(e)
+                self.tgt_lang.append(parsed_line[i])
             else:
                 if initialize_flage: 
                     self.src_alignment_info = [[] for _ in range(len(self.src_lang))]
                     self.tgt_alignment_info = [[] for _ in range(len(self.tgt_lang))]
                     initialize_flage= False
 
-                src_idx, tgt_idx = map(int,e.split('-'))
+                print(parsed_line[i])
+                src_idx, tgt_idx = map(int,parsed_line[i].split('-'))
+                print(src_idx, tgt_idx)
                 self.src_alignment_info[src_idx].append(tgt_idx)
                 self.tgt_alignment_info[tgt_idx].append(src_idx)
 
@@ -76,6 +79,7 @@ class ScorePhrase:
              
                      
                     except ValueError:
+
                         print(f"[WARN] invalid line format: {line.strip()}, skipping...")
                         continue
                 
@@ -125,6 +129,8 @@ class ScorePhrase:
             tmp_aligned_to_tgt = "".join("(" + ",".join(str(val) for val in e) + ") " for e in pa.tgt_alignment_info)
             tmp_aligned_to_src = "".join("(" + ",".join(str(val) for val in e) + ") " for e in pa.src_alignment_info)
 
+            print(tmp_aligned_to_src)
+            print(tmp_aligned_to_tgt)
 
             if(len(self.phrase_table)==0):
                 self.src_phrase_count = 1
@@ -215,6 +221,10 @@ class ScorePhrase:
                     pa.create(line)
                     self.calculateLexicalWeight(pa)
                     self.generatePhraseTable(pa, False)
+                #this is just for a placeholder
+                pa= PhraseAlignment()
+                #process the last orphaned line
+                self.generatePhraseTable(pa, True)
 
         except FileNotFoundError: 
             raise
@@ -260,4 +270,4 @@ class ScorePhrase:
             self.readPhraseFile()
         
         except Exception as e:
-            print(f"[FATAL] Could not load lexical table → {e}")
+            print(f"[FATAL] Error → {e}")

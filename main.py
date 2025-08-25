@@ -20,7 +20,7 @@ def main():
 
 
     # lex_generator.run()
-    score_phrase= ScorePhrase(phrase_table_file="output/phrase-table", lex_file="output/lex.s2d")
+    score_phrase= ScorePhrase(phrase_table_file="output/phrase-table", lex_file="output/lex.s2d", output_file="output/score")
 
     score_phrase.run()
     return
