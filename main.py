@@ -2,6 +2,7 @@ from PhraseExtractor import PhraseExtractor
 from LexcialTable import LexicalTable
 from ScorePhrase import ScorePhrase
 from MEOrdering import MEOrdering
+from MeModel import trainModel
 
 def main(): 
     extractor = PhraseExtractor(
@@ -31,7 +32,9 @@ def main():
         align_file="training-data/eng-hin-align.txt",
         output_file="output/me_ordering1"
     )
-    me_ordering.run()
+    # me_ordering.run()
+
+    trainModel(feature_file_path="output/me_ordering1", model_output_path="output/me_model")
     return
 
 if __name__ == "__main__":

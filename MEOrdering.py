@@ -60,7 +60,7 @@ class MEOrdering:
         return (-1, -1)         
 
     def saveFeatures(self, out_f, phrase_info: PhraseInfo, src_start1, src_end1, src_start2, src_end2, tgt_start1, tgt_end1, tgt_start2, tgt_end2, orientation):
-        out_f.write(f"{orientation} SLL={phrase_info.src_tokens[src_start1]} SLR={phrase_info.src_tokens[src_end1]} TLL={phrase_info.tgt_tokens[tgt_start1]} TLR={phrase_info.tgt_tokens[tgt_end1]} SRL={phrase_info.src_tokens[src_start2]} SRR={phrase_info.src_tokens[src_end2]} TRL={phrase_info.tgt_tokens[tgt_start2]} TRR={phrase_info.tgt_tokens[tgt_end2]}\n")
+        out_f.write(f"{orientation} ||| SLL={phrase_info.src_tokens[src_start1]} SLR={phrase_info.src_tokens[src_end1]} TLL={phrase_info.tgt_tokens[tgt_start1]} TLR={phrase_info.tgt_tokens[tgt_end1]} SRL={phrase_info.src_tokens[src_start2]} SRR={phrase_info.src_tokens[src_end2]} TRL={phrase_info.tgt_tokens[tgt_start2]} TRR={phrase_info.tgt_tokens[tgt_end2]}\n")
 
 
     def extract_features(self, phrase_info: PhraseInfo, out_f):
