@@ -156,7 +156,7 @@ class ScorePhrase:
         
         return
     
-    def mergeAlignedInfo(aligned_str1, aligned_str2):
+    def mergeAlignedInfo(self, aligned_str1, aligned_str2):
         """
         Merge two alignment strings by combining numbers in corresponding parentheses groups.
         
