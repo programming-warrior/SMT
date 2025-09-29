@@ -36,8 +36,8 @@ class PhraseAlignment:
                 self.tgt_lang.append(parsed_line[i])
             else:
                 if initialize_flage: 
-                    self.src_alignment_info = [[] for _ in range(len(self.src_lang))]
-                    self.tgt_alignment_info = [[] for _ in range(len(self.tgt_lang))]
+                    self.src_alignment_info = [[] for _ in range(len(self.src_lang))] #better to use set
+                    self.tgt_alignment_info = [[] for _ in range(len(self.tgt_lang))] #better ot use set
                     initialize_flage= False
 
                 print(parsed_line[i])
@@ -253,7 +253,7 @@ class ScorePhrase:
 
     def calculateLexicalWeight(self, pa):
 
-        # p(tgt_phrase|src_phrase) = product( sum( p_word(t|s) ) / count(s | s aligned with t) )
+        # p(tgt_phrase|src_phrase) = product( sum(p_word(t|s)) / count(s | s aligned with t) )
 
         lexical_weight = 1
 
@@ -273,7 +273,7 @@ class ScorePhrase:
                         weight += self.lex_table[src_word][tgt_word]
             
             weight /= tgt_aligned_len
-
+f
             lexical_weight*=weight
             
             tgt_idx+=1

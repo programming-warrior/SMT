@@ -12,9 +12,9 @@ class LexicalTable:
         self.output_file_path = output_file_path
 
     def getWordAlignmentCount(self, src_line, tgt_line, align_line):
-        src_tokens = src_line.strip().split()
-        tgt_tokens = tgt_line.strip().split()
-        align_tokens = align_line.strip().split()
+        src_tokens = src_line.strip().split(' ')
+        tgt_tokens = tgt_line.strip().split(' ')
+        align_tokens = align_line.strip().split(' ')
 
         for align_token in align_tokens:
             # source_word_idx-target_word_idx (e.g., 0-1)

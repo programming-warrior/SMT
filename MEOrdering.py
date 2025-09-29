@@ -65,9 +65,9 @@ class MEOrdering:
 
     def extract_features(self, phrase_info: PhraseInfo, out_f):
         for span in range(2, len(phrase_info.src_tokens)):
-            for start in range(len(phrase_info.src_tokens)-span+1):
+            for start in range(0, len(phrase_info.src_tokens)-span+1):
                 end = start + span - 1
-                for mid in range(start+1, end): 
+                for mid in range(start + 1, end + 1): 
                     left_tgt_start, left_tgt_end = self.findTgtPhrase(phrase_info, start, mid-1)
                     if left_tgt_start < 0 or left_tgt_end < 0:
                         continue
@@ -75,8 +75,10 @@ class MEOrdering:
                     if right_tgt_start < 0 or right_tgt_end < 0:
                         continue   
 
-                    #check the orientation
+                    #check the orientation 
+            
                     if left_tgt_end < right_tgt_start:
+                        # FROM niutrans SMT
                         gap_count=0 
                         is_unaligned = True
                         for idx in  range(left_tgt_end+1, right_tgt_start):
@@ -90,6 +92,7 @@ class MEOrdering:
                         orientation = "STRAIGHT"
 
                     elif left_tgt_end >= right_tgt_start:
+                        # FROM niutrans SMT
                         gap_count=0
                         is_unaligned = True
                         for idx in  range(right_tgt_end+1, left_tgt_start):

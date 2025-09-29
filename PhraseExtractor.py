@@ -23,8 +23,8 @@ class PhraseExtractor:
         
 
     def createWordAlignment(self,src_line, tgt_line, align_line):
-        self.src_lang = src_line.split(" ")
-        self.tgt_lang = tgt_line.split(" ")
+        self.src_lang = src_line.strip().split(" ")
+        self.tgt_lang = tgt_line.strip().split(" ")
 
         self.src_tgt_align_info = [set() for _ in range(len(self.src_lang))]
         self.tgt_src_align_info = [set() for _ in range(len(self.tgt_lang))]
@@ -45,6 +45,7 @@ class PhraseExtractor:
         if phrase_pair.source_start > phrase_pair.source_end: 
             print("invalid_phrase")
             return False 
+        #all source words in the phrase should be only aligned to target words within the phrase
         for i in range(phrase_pair.source_start, phrase_pair.source_end + 1): 
             for aligned_tgt_idx in self.src_tgt_align_info[i]: 
                 if(aligned_tgt_idx < phrase_pair.target_start  or aligned_tgt_idx > phrase_pair.target_end): 
